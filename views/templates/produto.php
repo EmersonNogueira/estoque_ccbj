@@ -1,5 +1,13 @@
 <div class="container">
     <h1>Listagem de Produtos</h1>
+    <?php if (isset($_SESSION['mensagem_confirmacao'])): ?>
+        <script type="text/javascript">
+            window.onload = function() {
+                alert('<?php echo htmlspecialchars($_SESSION['mensagem_confirmacao']); ?>');
+            };
+        </script>
+        <?php unset($_SESSION['mensagem_confirmacao']); // Limpa a mensagem após exibir ?>
+    <?php endif; ?>
     <div class="top-bar">
         <form method="GET" action="/estrutura_mvc_base/Produto/" class="search-form">
             <input type="text" name="search" placeholder="Buscar por nome" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" class="search-input">

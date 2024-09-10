@@ -1,7 +1,16 @@
-<?php //mostrar os produtos disponivel para solicitar ?>
+<?php // mostrar os produtos disponíveis para solicitar ?>
 <div class="container">
     <h1>Solicitação de Produtos</h1>
-    
+
+    <?php if (isset($_SESSION['mensagem_confirmacao'])): ?>
+        <script type="text/javascript">
+            window.onload = function() {
+                alert('<?php echo htmlspecialchars($_SESSION['mensagem_confirmacao']); ?>');
+            };
+        </script>
+        <?php unset($_SESSION['mensagem_confirmacao']); // Limpa a mensagem após exibir ?>
+    <?php endif; ?>
+
     <table>
         <thead>
             <tr>
@@ -13,10 +22,7 @@
             </tr>
         </thead>
         <tbody>
-
             <?php if (isset($produtos) && !empty($produtos)): ?>
-                <?php echo '<pre>'; print_r($row); echo '</pre>'; ?>
-
                 <?php foreach ($produtos as $row): ?>
                     <?php
                         $nome = htmlspecialchars($row['nome']);

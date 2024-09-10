@@ -42,8 +42,7 @@ class SolicitacaoController extends Controller
         $this->view->render('solicitarProduto.php');
     }
 
-
-    public function criarsolicitacao(){
+    public function criarsolicitacao() {
         if (
             isset(
                 $_POST['quantidade'], 
@@ -53,23 +52,26 @@ class SolicitacaoController extends Controller
                 $_POST['produto_id']
             )
         ) {
-            // Todos os campos existem no POST, você pode prosseguir
-            var_dump($_POST);
             $setor = $_POST['destino'];
             $solicitante = $_POST['solicitante'];
-            $produto_id =  $_POST['produto_id'];
+            $produto_id = $_POST['produto_id'];
             $quantidade_pedida = $_POST['quantidade'];
             $obs = $_POST['obs']; 
-            $this->model->add($setor,$solicitante,$produto_id,$quantidade_pedida,$obs);
-
+            $this->model->add($setor, $solicitante, $produto_id, $quantidade_pedida, $obs);
+    
+            // Definir mensagem de confirmação na sessão
+            $_SESSION['mensagem_confirmacao'] = 'Sua solicitação foi criada com sucesso!';
+    
+            // Redirecionar para a página de produtos
+            header('Location: /estrutura_mvc_base/Produto/produtosolicitar');
+            exit(); // Certifique-se de sair após o redirecionamento
         } else {
             echo "ERRO";
         }
     }
+    
 
-
-    public function finalizar(){
-        session_start();
+    public function finalizar() {
         if (isset($_SESSION['dados_form'])) {
             $dados = $_SESSION['dados_form'];
             if (isset($dados['id_sol'])) {
@@ -84,6 +86,12 @@ class SolicitacaoController extends Controller
             } else {
                 echo "ID da solicitação não fornecido.";
             }
+
+            $_SESSION['mensagem_confirmacao'] = 'BAIXA NO PRODUTO FOI REALIZADA COM SUCESSO CONFIRA O NOVO SALDO';
+
+
+            header('Location: /estrutura_mvc_base/Produto/index');
+
         } else {
             echo "Dados do formulário não encontrados na sessão.";
         }
